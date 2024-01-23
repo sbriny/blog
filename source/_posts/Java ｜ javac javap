@@ -1,0 +1,21 @@
+
+
+```java
+@Test
+public void simplet2(){
+    int s = 0;
+    for(int i = 0;i<5;i++) {
+        s=s++;
+        System.out.println("s="+s);
+    }
+    System.out.println("s="+s);
+}
+/*
+out:
+s=0
+s=0
+s=0
+s=0
+s=0
+*/
+```

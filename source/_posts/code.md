@@ -1,0 +1,3 @@
+final native
+Class<?>
+@IntrinsicCandidate

@@ -1,0 +1,132 @@
+---
+title: JAXBUtils
+date: 2023-04-26
+category: code
+---
+
+XML <-> Java Bean
+
+```JAVA
+import com.btf.buss.handler.CustomCharacterEscapeHandler;
+import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+
+
+public class JAXBUtils {
+    private final static Logger logger = LoggerFactory.getLogger(JAXBUtils.class);
+
+    public static String toXml(Object obj/*, String charset*/){
+        String rs = null;
+        StringWriter sw = new StringWriter();
+        JAXBContext context = null;
+        Marshaller marshaller = null;
+        try {
+            context = JAXBContext.newInstance(obj.getClass());
+            marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
+            marshaller.setProperty(Marshaller.JAXB_FRAGMENT,Boolean.TRUE);
+//            marshaller.setProperty(Marshaller.JAXB_ENCODING,charset);
+            marshaller.setProperty(CharacterEscapeHandler.class.getName(), new CharacterEscapeHandler() {
+                public void escape(char[] ch, int start,int length, boolean isAttVal, Writer writer) throws IOException {
+                    writer.write(ch, start, length);
+                }
+            });
+//            marshaller.setProperty(CharacterEscapeHandler.class.getName(), new CustomCharacterEscapeHandler());
+            marshaller.marshal(obj,sw);
+            rs = sw.toString();
+        }
+        catch (JAXBException e) {
+            logger.warn("Bean to XML Error! -> {}",e.getMessage());
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                sw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return rs;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T converToBean(String s, Class<T> c){
+        T t = null;
+        try {
+            JAXBContext context = JAXBContext.newInstance(c);
+            Unmarshaller marshaller = context.createUnmarshaller();
+            t= (T) marshaller.unmarshal(new StringReader(s));
+        } catch (JAXBException e) {
+            logger.error("XML to Bean error ! -> {}",e.getMessage());
+            e.printStackTrace();
+        }
+        return t;
+    }
+}
+
+```
+
+<!--more-->
+
+```JAVA
+package com.btf.buss.handler;
+
+import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
+
+import java.io.IOException;
+import java.io.Writer;
+
+public class CustomCharacterEscapeHandler implements CharacterEscapeHandler {
+
+    public CustomCharacterEscapeHandler() {
+        super();
+    }
+
+    public void escape(char[] ch, int start, int length, boolean isAttVal, Writer out) throws IOException {
+        // avoid calling the Writerwrite method too much by assuming
+        // that the escaping occurs rarely.
+        // profiling revealed that this is faster than the naive code.
+        int limit = start+length;
+        for (int i = start; i < limit; i++) {
+            char c = ch[i];
+            if(c == '&' || c == '<' || c == '>' || c == '\'' || (c == '\"' && isAttVal) ) {
+                if(i!=start) {
+                    out.write(ch,start,i-start);
+                }
+                start = i+1;
+                switch (ch[i]) {
+                    case '&':
+                        out.write("&amp;");
+                        break;
+                    case '<':
+                        out.write("&lt;");
+                        break;
+                    case '>':
+                        out.write("&gt;");
+                        break;
+                    case '\"':
+                        out.write("&quot;");
+                        break;
+                    case '\'':
+                        out.write("&apos;");
+                        break;
+                }
+            }
+        }
+
+        if( start!=limit ) {
+            out.write(ch,start,limit-start);
+        }
+    }
+}
+```
