@@ -39,7 +39,7 @@ jobs:
           path: ./public
       - name: Configuration environment
         env:
-          HEXO_DEPLOY_PRI: ${{secrets.HEXO_DEPLOY_PRI}}
+          DEPLOY_KEY: ${{secrets.DEPLOY_KEY}}
         run: |
           mkdir -p ~/.ssh/
           echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
