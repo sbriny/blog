@@ -106,7 +106,7 @@ theme: next
 deploy:
 #     type: ''
   type: git
-  repo: git@github.com:sbriny/blog.git
+  repo: https://github.com/sbriny/blog.git
 #   # example, https://github.com/hexojs/hexojs.github.io
   branch: gh-pages
 
