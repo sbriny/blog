@@ -39,7 +39,7 @@ jobs:
         with:
           deploy_key: ${{ secrets.DEPLOY_KEY }}
           user_name: sbriny
-          user_email: 346037862@qq.com
+          user_email: sbriny@qq.com
           commit_msg: ${{ github.envent.commit.message }}
       # - name: Get the output
       #   run: |
