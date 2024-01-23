@@ -41,9 +41,9 @@ jobs:
           user_name: sbriny
           user_email: 346037862@qq.com
           commit_msg: ${{ github.envent.commit.message }}
-      - name: Get the output
-        run: |
-          echo "${{ step.deploy.output.notify }}"
+      # - name: Get the output
+      #   run: |
+      #     echo "${{ step.deploy.output.notify }}"
   # deploy:
     # needs: build
     # permissions:
