@@ -104,11 +104,11 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-    type: ''
-  # type: git
-  # repo: https://github.com/sbriny/blog.git
+    # type: ''
+  type: git
+  repo: https://github.com/sbriny/blog.git
 #   # example, https://github.com/hexojs/hexojs.github.io
-  # branch: master
+  branch: master
 
 # ---------------------------------------------------------------
 # Menu Settings
