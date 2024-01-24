@@ -12,7 +12,7 @@ date: 2023-06-14 16:59
 2.打包轮子；
 3.导入轮子；
 4.测试。
-![](images/2023-06-16-17-25-08.png)
+![](Java-解决Oracle字段类型BigDecimal转化问题/2023-06-16-17-25-08.png)
 
 Listener refused the connection with the following error:
 ORA-12528, TNS:listener: all appropriate instances are blocking new connections

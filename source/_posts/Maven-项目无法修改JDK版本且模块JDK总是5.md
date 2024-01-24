@@ -3,16 +3,16 @@ title: Maven导入模块无法修改JDK版本
 date: 2023-05-06 10:11
 ---
 
-![](../images/2023-06-06-10-12-33.png)
+![](Maven-项目无法修改JDK版本且模块JDK总是5/2023-06-06-10-12-33.png)
 <!--more-->
 mvn创建了个小的分模块Demo，run build的时候竟然提示JDK版本有问题。  
 因为是命令行新建的项目，POM都是默认的。
-![](../images/2023-06-06-10-25-03.png)
+![](Maven-项目无法修改JDK版本且模块JDK总是5/2023-06-06-10-25-03.png)
 从Maven导入的模块中，无法切换Language Level，但是项目的JDK版本和LV都正常。
-![](../images/2023-06-06-10-14-11.png)
+![](Maven-项目无法修改JDK版本且模块JDK总是5/2023-06-06-10-14-11.png)
 且修改会提示：`Module is imported from Maven. Any changes made in its configuration might be lost after reimporting`  
 只要保存修改后就会发生编译错误：
-![](../images/2023-06-06-10-14-52.png)
+![](Maven-项目无法修改JDK版本且模块JDK总是5/2023-06-06-10-14-52.png)
 返回发现LV配置并未生效。
 
 问题原因是因为POM中也需要设置JDK版本。没有设置所以每次修改POM后重新运行都会回复默认版本1.5。
@@ -42,4 +42,4 @@ mvn创建了个小的分模块Demo，run build的时候竟然提示JDK版本有�
 </properties>
 ```
 两种方法修改后Build Run正常。
-![](../images/2023-06-06-10-29-41.png)
+![](Maven-项目无法修改JDK版本且模块JDK总是5/2023-06-06-10-29-41.png)

@@ -6,7 +6,7 @@ tags: [swagger,openapi]
 ---
 
 今天用Swagger-ui测试请求参数的时候，发现请求的路径被URL Encoding了，所以参数一直不正确，导致报错。
-![](../2023-05-15-17-35-44.png)
+![](Swagger-接口请求路径被url编码/2023-05-15-17-35-44.png)
 
 <!--more-->
 
@@ -25,4 +25,5 @@ Integer pageSize
 ```
 
 修改后请求生效。
-![](2023-05-15-17-38-50.png)
+<!-- {% asset_img label 2023-05-15-17-38-50.png %} -->
+![label](Swagger-接口请求路径被url编码/2023-05-15-17-38-50.png)
